@@ -4,674 +4,909 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cpath%20d='M16%2028C6%2021%202%2016.5%202%2011%202%206%206%203%2010%203c2.6%200%204.8%201.4%206%203.4C17.2%204.4%2019.4%203%2022%203c4%200%208%203%208%208%200%205.5-4%2010-14%2017z'%20fill='%23116357'/%3E%3C/svg%3E">
-<title>Concern Worldwide — thank you page with post-gift attribution (prototype)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23015d59'/%3E%3Cpath%20d='M8%2016h16M8%2011h16M8%2021h9'%20stroke='%23fff'%20stroke-width='2.6'%20stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Concern Worldwide — attribution question, six approaches (prototype)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 /* ------------------------------------------------------------------
-   Concern Worldwide — thank-you page prototype
-   Colours sampled from the supplied screenshot. Not an official
-   Concern brand file: a working prototype for the attribution question.
+   Concern Worldwide — "What motivated your contribution today?"
+   Six approaches to the same question: five input patterns in the real
+   Address step, plus moving it off the form onto the thank-you page.
+
+   Colours, type and layout taken from the Donation forms Figma
+   (node 10166:1078). Working prototype, not an official Concern build.
    ------------------------------------------------------------------ */
 :root{
-  --teal-900:#0a4c43;
-  --teal-800:#0d5a4f;
-  --teal-700:#116357;
-  --teal-600:#17796a;
-  --green-logo:#22a44b;
-  --crimson:#c2005c;
-  --cream:#fdfbf3;
-  --ink:#1b2b28;
-  --ink-soft:#3f524e;
-  --rule:#e4e0d3;
-  --blue-100:#d8eef8;
-  --blue-050:#e8f5fb;
-  --yellow-100:#fdf1c8;
-  --sage-100:#d7e6df;
+  --teal:#007c76;
+  --teal-dark:#015d59;
+  --teal-darkest:#004440;
+  --banner:#d9f4f3;
+  --card:#fcfbf9;
+  --grey-step:#ededed;
+  --btn-off-bg:#dcdcdc;
+  --btn-off-fg:#999999;
+  --logo:#0b7b51;
+  --ink:#000000;
+  --ink-2:#212431;
+  --muted:#5c5f68;
+  --line:#000000;
+  --line-soft:#c9c9c6;
   --white:#fff;
-
-  --r-sm:8px;
-  --r-md:14px;
-  --r-lg:22px;
-  --r-pill:999px;
-
-  --shadow-1:0 1px 2px rgba(10,76,67,.06), 0 2px 8px rgba(10,76,67,.05);
-  --shadow-2:0 2px 4px rgba(10,76,67,.07), 0 12px 28px rgba(10,76,67,.11);
 
   --ease:cubic-bezier(.2,.8,.2,1);
   --ease-soft:cubic-bezier(.4,0,.2,1);
-  --dur-fast:180ms;
-  --dur:320ms;
-  --dur-slow:560ms;
-
-  --maxw:1100px;
+  --dur-fast:150ms;
+  --dur:280ms;
+  --dur-slow:460ms;
 }
-
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0;
-  background:var(--cream);
-  color:var(--ink);
-  font-family:"Figtree",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  font-size:16px;
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
+  margin:0;background:var(--teal);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased;
 }
-img{max-width:100%;display:block}
-h1,h2,h3,p{margin:0}
+h1,h2,h3,p,ul,ol,fieldset,legend{margin:0;padding:0}
+ul,ol{list-style:none}
 button{font:inherit;color:inherit}
-
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+fieldset{border:0;min-width:0}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-/* ---------- header ---------- */
-.utility{background:var(--white);border-bottom:1px solid transparent}
-.utility .wrap{display:flex;justify-content:flex-end;gap:0;padding-top:10px;padding-bottom:2px}
-.utility a{
-  color:var(--teal-700);text-decoration:none;font-size:13.5px;font-weight:500;
-  padding:0 14px;border-right:1px solid var(--rule);
+/* ============ prototype chrome (not part of the design) ============ */
+.proto{
+  background:#14161c;color:#e9eaec;position:sticky;top:0;z-index:60;
+  border-bottom:1px solid #2c2f38;
 }
-.utility a:last-child{border-right:0;padding-right:0}
-.utility a:hover{text-decoration:underline}
+.proto-in{max-width:1440px;margin:0 auto;padding:12px 24px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.proto-label{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:#8e93a0;flex:0 0 auto;
+}
+.proto-tabs{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto}
+.ptab{
+  background:transparent;border:1px solid #383c47;border-radius:999px;
+  padding:7px 15px;font-size:13.5px;font-weight:600;color:#c3c7d1;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  transition:background var(--dur-fast) var(--ease-soft),color var(--dur-fast) var(--ease-soft),border-color var(--dur-fast) var(--ease-soft);
+}
+.ptab em{font-style:normal;font-size:11px;font-weight:500;color:#8e93a0;letter-spacing:.04em;text-transform:uppercase}
+.ptab:hover{background:#212530;color:#fff;border-color:#4a4f5c}
+.ptab[aria-selected="true"]{background:#fff;color:#14161c;border-color:#fff}
+.ptab[aria-selected="true"] em{color:#5c6070}
+.ptab:focus-visible{outline:2.5px solid #7fd6ff;outline-offset:2px}
+.proto-note{
+  flex:1 0 100%;font-size:13px;color:#9aa0ad;line-height:1.5;max-width:96ch;
+}
+.proto-note b{color:#dfe2e8;font-weight:600}
 
-.masthead{background:var(--white);position:sticky;top:0;z-index:20;box-shadow:0 1px 0 rgba(27,43,40,.06)}
-.masthead .wrap{display:flex;align-items:center;gap:34px;padding-top:14px;padding-bottom:16px}
-.logo{display:flex;flex-direction:column;line-height:.86;text-decoration:none;flex:0 0 auto}
-.logo b{
-  font-size:27px;font-weight:800;letter-spacing:.005em;color:var(--green-logo);
-  font-family:"Figtree",sans-serif;
-}
-.logo span{font-size:12.5px;font-weight:600;color:var(--green-logo);letter-spacing:.09em;padding-left:2px}
-.mainnav{display:flex;gap:26px;flex:1 1 auto}
-.mainnav a{
-  display:inline-flex;align-items:center;gap:7px;
-  color:var(--ink);text-decoration:none;font-size:15.5px;font-weight:500;
-}
-.mainnav a:hover{color:var(--teal-600)}
-.mainnav svg{width:13px;height:13px;stroke:var(--teal-600);stroke-width:2.2;fill:none}
-.head-actions{display:flex;align-items:center;gap:18px;flex:0 0 auto}
-.icon-btn{
-  background:none;border:0;padding:6px;cursor:pointer;border-radius:var(--r-pill);
-  display:grid;place-items:center;transition:background var(--dur-fast) var(--ease-soft);
-}
-.icon-btn:hover{background:#f0f4f2}
-.icon-btn svg{width:21px;height:21px;stroke:var(--ink);stroke-width:2;fill:none}
-.btn-donate{
-  background:var(--crimson);color:var(--white);border:0;cursor:pointer;
-  padding:13px 26px;border-radius:var(--r-pill);font-weight:700;font-size:16px;
-  transition:transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease-soft);
-}
-.btn-donate:hover{background:#a80050;transform:translateY(-1px);box-shadow:var(--shadow-2)}
+/* ============ page furniture ============ */
+.masthead{background:var(--white);height:82px;display:flex;align-items:center}
+.masthead-in{max-width:1440px;width:100%;margin:0 auto;padding:0 36px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;flex-direction:column;line-height:.85;text-decoration:none}
+.logo b{font-size:25px;font-weight:700;color:var(--logo);letter-spacing:.01em}
+.logo span{font-size:11.5px;font-weight:700;color:var(--logo);letter-spacing:.05em;align-self:flex-end}
+.trust{display:flex;gap:26px;align-items:center}
+.trust div{display:flex;align-items:center;gap:8px;font-size:11.5px;line-height:1.25;color:#3d4048}
+.trust b{display:block;font-size:12.5px;font-weight:700;color:var(--ink)}
+.trust svg{width:26px;height:26px;flex:0 0 auto}
 
-/* ---------- hero ---------- */
-.hero{padding:74px 0 44px}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px;align-items:start}
-.hero h1{
-  font-size:clamp(34px,5vw,53px);line-height:1.06;font-weight:800;color:var(--teal-700);
-  letter-spacing:-.02em;margin-bottom:26px;
+.stage{position:relative;background:var(--teal);overflow:hidden;min-height:600px}
+.stage::before{
+  content:"";position:absolute;inset:0 auto 0 0;width:52%;
+  background:var(--teal-dark);opacity:.35;
+  clip-path:polygon(0 0,72% 0,100% 100%,0 100%);
 }
-.hero h2{font-size:22px;font-weight:700;margin-bottom:10px}
-.hero p{color:var(--ink-soft);max-width:44ch;font-size:16.5px}
-.heart{width:180px;height:auto;justify-self:end;stroke:var(--teal-700);fill:none;stroke-width:5.5}
-
-/* ==================================================================
-   ATTRIBUTION QUESTION — the new section
-   ================================================================== */
-.attr{padding:0 0 46px}
-.attr-card{
-  border-top:1px solid var(--rule);
-  padding:26px 0 0;
-}
-.attr h2{font-size:20px;font-weight:700;letter-spacing:-.005em;line-height:1.25}
-.attr .lede{
-  color:var(--ink-soft);margin-top:6px;max-width:64ch;font-size:15px;line-height:1.5;
-}
-
-/* stage animates its own height between the two states */
-.stage{
-  transition:height var(--dur-slow) var(--ease);
-  overflow:hidden;
-  will-change:height;
-}
-.panel[hidden]{display:none}
-
-/* --- ask state --- */
-.options{
-  display:flex;flex-wrap:wrap;gap:9px;
-  margin-top:16px;padding:0;list-style:none;
-}
-.opt{
-  --lift:0px;
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--white);
-  border:1px solid #e5e1d3;
-  border-radius:var(--r-pill);
-  padding:9px 16px 9px 13px;
-  font-size:14.5px;font-weight:500;color:var(--ink-soft);
-  cursor:pointer;
-  text-align:left;
-  transition:
-    transform var(--dur) var(--ease),
-    opacity var(--dur) var(--ease-soft),
-    border-color var(--dur-fast) var(--ease-soft),
-    color var(--dur-fast) var(--ease-soft),
-    background var(--dur-fast) var(--ease-soft),
-    box-shadow var(--dur-fast) var(--ease);
-  transform:translateY(var(--lift));
-}
-.opt svg{width:17px;height:17px;flex:0 0 auto;stroke:#a5b2ae;stroke-width:1.6;fill:none;transition:stroke var(--dur-fast) var(--ease-soft)}
-.opt:hover{
-  --lift:-1px;
-  border-color:#b9d3cb;
-  background:#edf5f2;
-  color:var(--ink);
-  box-shadow:0 1px 3px rgba(10,76,67,.07);
-}
-.opt:hover svg{stroke:var(--teal-600)}
-.opt:active{--lift:0px;transition-duration:80ms}
-.opt:focus-visible{outline:2.5px solid var(--teal-600);outline-offset:3px}
-
-/* click feedback: the chosen pill confirms before the group clears */
-.opt.is-chosen{
-  border-color:var(--teal-600);
-  background:var(--teal-600);
-  color:var(--white);
-  font-weight:600;
-  --lift:-2px;
-  box-shadow:0 2px 10px rgba(10,76,67,.16);
-}
-.opt.is-chosen svg{stroke:var(--white)}
-.opt.is-dismissed{opacity:0;transform:translateY(6px) scale(.97);pointer-events:none}
-.opt.is-chosen.is-dismissed{opacity:0;transform:translateY(-6px) scale(1.02)}
-
-/* --- thanks state --- */
-.thanks{
-  display:flex;align-items:flex-start;gap:12px;
-  opacity:0;transform:translateY(14px);
-  transition:opacity var(--dur-slow) var(--ease-soft), transform var(--dur-slow) var(--ease);
-}
-.thanks.is-in{opacity:1;transform:none}
-.tick{
-  flex:0 0 auto;width:26px;height:26px;border-radius:var(--r-pill);
-  background:var(--teal-700);display:grid;place-items:center;
-}
-.tick svg{width:14px;height:14px;stroke:var(--white);stroke-width:3.4;fill:none;
-  stroke-dasharray:32;stroke-dashoffset:32;
-  transition:stroke-dashoffset 460ms var(--ease) 160ms;
-}
-.thanks.is-in .tick svg{stroke-dashoffset:0}
-.thanks-body{flex:1 1 auto;min-width:0}
-.thanks-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.thanks h3{font-size:18px;font-weight:700;letter-spacing:-.005em;line-height:1.45}
-.undo{
-  background:none;border:0;padding:2px 2px;cursor:pointer;
-  color:#7d928d;font-size:13.5px;font-weight:500;
-  text-decoration:underline;text-underline-offset:3px;
-  border-radius:var(--r-sm);
-  transition:color var(--dur-fast) var(--ease-soft);
-}
-.undo:hover{color:var(--teal-700)}
-.undo:focus-visible{outline:2.5px solid var(--teal-600);outline-offset:2px}
-
-/* optional follow-up for "Any other reason" */
-.followup{
-  margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);
-  max-width:470px;
-  opacity:0;transform:translateY(10px);
-  transition:opacity var(--dur-slow) var(--ease-soft) 220ms, transform var(--dur-slow) var(--ease) 220ms;
-}
-.thanks.is-in .followup{opacity:1;transform:none}
-.followup[hidden]{display:none}
-.followup label{display:block;font-weight:600;font-size:14px;margin-bottom:7px}
-.followup .row{display:flex;gap:9px;align-items:stretch}
-.followup input{
-  flex:1 1 auto;font:inherit;font-size:15px;padding:10px 15px;
-  border:1px solid #e0dccd;border-radius:var(--r-md);background:var(--white);color:var(--ink);
-  transition:border-color var(--dur-fast) var(--ease-soft), box-shadow var(--dur-fast) var(--ease-soft);
-}
-.followup input::placeholder{color:#9aa6a3}
-.followup input:focus{outline:0;border-color:var(--teal-600);box-shadow:0 0 0 3px rgba(23,121,106,.18)}
-.btn-send{
-  background:var(--teal-700);color:var(--white);border:0;border-radius:var(--r-pill);
-  padding:10px 21px;font-weight:600;font-size:14.5px;cursor:pointer;
-  transition:background var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease);
-}
-.btn-send:hover{background:var(--teal-800);transform:translateY(-1px)}
-.btn-send:focus-visible{outline:3px solid var(--teal-600);outline-offset:3px}
-.followup .done{color:var(--teal-700);font-weight:600}
-
-/* ---------- keep this feeling growing ---------- */
-.grow{background:var(--blue-100);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:52px 44px 60px;text-align:center}
-.grow h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.015em}
-.grow-cards{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;
-  margin-top:38px;text-align:left;
-}
-.grow-card{
-  background:var(--white);border:1px solid #cfe4ee;border-radius:var(--r-sm);
-  padding:26px 26px 24px;display:flex;gap:16px;
-}
-.grow-card.tinted{background:var(--blue-050)}
-.grow-card > svg{width:26px;height:26px;flex:0 0 auto;stroke:var(--teal-700);stroke-width:1.7;fill:none;margin-top:2px}
-.grow-card p{font-size:16px;color:var(--ink)}
-.btn-ghost,.btn-solid{
-  display:inline-flex;align-items:center;gap:9px;margin-top:18px;
-  border-radius:var(--r-pill);font-weight:700;font-size:14.5px;cursor:pointer;
-  padding:11px 20px;
-  transition:transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
-}
-.btn-solid{background:var(--teal-700);color:var(--white);border:1.5px solid var(--teal-700)}
-.btn-solid:hover{background:var(--teal-800);transform:translateY(-1px);box-shadow:var(--shadow-2)}
-.btn-ghost{background:transparent;color:var(--teal-700);border:1.5px solid var(--teal-700)}
-.btn-ghost:hover{background:var(--teal-700);color:var(--white);transform:translateY(-1px)}
-.btn-ghost svg,.btn-solid svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.6;fill:none}
-
-/* ---------- share band ---------- */
-.share{background:var(--teal-800);border-radius:0 0 var(--r-lg) var(--r-lg);padding:52px 44px;
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
-.share-card{background:var(--white);border-radius:2px;padding:26px 28px;max-width:400px}
-.share-card p{font-weight:500}
-.socials{display:flex;gap:14px;margin-top:20px}
-.social{
-  width:38px;height:38px;border-radius:var(--r-pill);background:var(--teal-800);
-  display:grid;place-items:center;border:0;cursor:pointer;
-  transition:transform var(--dur) var(--ease), background var(--dur-fast) var(--ease-soft);
-}
-.social svg{width:19px;height:19px;fill:var(--white)}
-.social:hover{transform:translateY(-3px) scale(1.06);background:var(--teal-600)}
-.social:focus-visible{outline:3px solid var(--white);outline-offset:3px}
-.spread{justify-self:center;max-width:340px;stroke:var(--white);fill:none;stroke-width:2.4}
-
-/* ---------- article ---------- */
-.article{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:44px;border-radius:var(--r-sm);overflow:hidden}
-.article-copy{background:var(--yellow-100);padding:52px 44px}
-.article-copy h2{font-size:26px;font-weight:800;letter-spacing:-.015em;max-width:22ch}
-.article-copy p{margin-top:16px;color:var(--ink-soft);max-width:46ch}
-.article-photo{
+.photo{
+  position:absolute;top:82px;right:0;bottom:82px;width:min(70%,1010px);
+  border-radius:0 0 0 90px;
   background:
-    radial-gradient(120% 90% at 70% 20%, #9db98a 0%, transparent 60%),
-    linear-gradient(160deg,#6f5a3f,#3f3226 60%,#25211c);
-  min-height:330px;display:grid;place-items:end center;padding:20px;
+    radial-gradient(80% 60% at 62% 28%, rgba(255,255,255,.22), transparent 62%),
+    linear-gradient(150deg,#5f7f4a,#2f4a33 45%,#1d2a22);
+  display:grid;place-items:end center;padding:26px;
 }
-.article-photo span{color:rgba(255,255,255,.62);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.photo span{color:rgba(255,255,255,.5);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
 
-/* ---------- confirmation ---------- */
-.confirm{background:var(--sage-100);border-radius:var(--r-lg);padding:56px 44px 62px;margin:44px 0 80px;text-align:center}
-.confirm h2{font-size:clamp(23px,3vw,31px);font-weight:800;letter-spacing:-.015em;line-height:1.25}
-.confirm p{margin-top:26px;color:var(--ink-soft);max-width:56ch;margin-left:auto;margin-right:auto}
-.confirm a{color:var(--teal-800);font-weight:600}
-
-/* ---------- prototype note ---------- */
-.protonote{
-  max-width:var(--maxw);margin:0 auto 60px;padding:0 24px;
-  color:#7b8783;font-size:13.5px;
+.shell{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:82px 36px 82px}
+.formcard{
+  background:var(--card);border-radius:6px;width:100%;max-width:616px;
+  padding:32px 40px 40px;box-shadow:0 8px 40px rgba(0,0,0,.10);
 }
-.protonote div{border-top:1px solid var(--rule);padding-top:16px}
+.formcard h1{font-size:32px;line-height:1.22;font-weight:700;text-align:center;letter-spacing:-.01em}
 
-/* ---------- responsive ---------- */
-@media (max-width:900px){
-  .mainnav,.utility{display:none}
-  .masthead .wrap{gap:12px;justify-content:space-between;padding-left:18px;padding-right:18px}
-  .head-actions{gap:6px}
-  .btn-donate{padding:11px 18px;font-size:15px}
-  .logo b{font-size:23px}
-  .hero .wrap{grid-template-columns:1fr}
-  .heart{width:120px;justify-self:start}
-  .attr-card{padding:22px 0 0}
-  .share{grid-template-columns:1fr;padding:40px 24px}
-  .grow{padding:40px 24px 46px}
-  .article{grid-template-columns:1fr}
-  .article-copy{padding:36px 24px}
-  .confirm{padding:40px 24px 46px}
-  .opt{width:100%;justify-content:flex-start}
-  .thanks{flex-direction:column;gap:14px}
+/* steps */
+.steps{display:flex;margin:32px 0 0;height:34px;font-size:14px;font-weight:700}
+.step{
+  flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:7px;
+  position:relative;background:var(--grey-step);color:var(--ink);
+}
+.step.done{background:var(--teal-dark);color:var(--white)}
+.step.now{background:var(--teal-darkest);color:var(--white)}
+.step.done::after,.step.now::after{
+  content:"";position:absolute;left:100%;top:0;z-index:2;
+  border:17px solid transparent;border-left-width:11px;border-right-width:0;
+}
+.step.done::after{border-left-color:var(--teal-dark)}
+.step.now::after{border-left-color:var(--teal-darkest)}
+.step svg{width:13px;height:9px;fill:none;stroke:currentColor;stroke-width:2.4}
+
+.banner{
+  margin-top:32px;background:var(--banner);color:var(--teal-darkest);
+  padding:20px 24px;display:flex;gap:22px;align-items:center;
+  font-size:14px;font-weight:700;line-height:1.3;
+}
+.banner svg{width:24px;height:24px;flex:0 0 auto;stroke:var(--teal-darkest);stroke-width:1.7;fill:none}
+
+/* fields */
+.field{margin-top:28px}
+.flabel{font-size:16px;font-weight:700;line-height:21px}
+.flabel .opt{font-weight:400;font-size:14px;color:var(--ink)}
+.control{
+  margin-top:8px;width:100%;height:48px;background:var(--white);
+  border:1px solid var(--line);border-radius:2px;
+  padding:0 12px;font:inherit;font-size:16px;color:var(--ink);
+  display:flex;align-items:center;
+}
+input.control::placeholder{color:#6a6d75}
+input.control:focus,select.control:focus{outline:3px solid var(--teal);outline-offset:1px}
+.control-sm{height:45px}
+.hint{margin-top:8px;font-size:14px;line-height:21px;color:var(--ink)}
+.row2{display:flex;gap:32px}
+.row2 > *{flex:1 1 0;margin-top:0}
+.searchrow{display:flex;margin-top:8px}
+.searchrow input{
+  flex:1 1 auto;height:48px;border:1px solid var(--line);border-right:0;border-radius:2px 0 0 2px;
+  padding:0 12px 0 40px;font:inherit;font-size:16px;background:var(--white) no-repeat 12px 50%;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23212431' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");
+  background-size:20px;
+}
+.searchrow button{
+  flex:0 0 auto;background:var(--teal-dark);color:var(--white);border:1px solid var(--teal-dark);
+  border-radius:0 2px 2px 0;padding:0 30px;font-size:18px;font-weight:700;cursor:pointer;height:48px;
+}
+.chev{margin-left:auto;width:24px;height:24px;stroke:var(--ink-2);stroke-width:2;fill:none;flex:0 0 auto}
+select.control{appearance:none;-webkit-appearance:none;cursor:pointer;
+  background:var(--white) no-repeat right 12px center;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23212431' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-size:22px;padding-right:44px;
 }
 
+.submit{
+  display:block;margin:36px auto 0;border:0;border-radius:999px;
+  background:var(--btn-off-bg);color:var(--btn-off-fg);
+  padding:11px 34px;font-size:15px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+  cursor:not-allowed;
+  transition:background var(--dur) var(--ease-soft),color var(--dur) var(--ease-soft),transform var(--dur-fast) var(--ease);
+}
+.submit.ready{background:var(--teal-dark);color:var(--white);cursor:pointer}
+.submit.ready:hover{background:var(--teal-darkest);transform:translateY(-1px)}
+.submit:focus-visible{outline:3px solid var(--teal-darkest);outline-offset:3px}
+
+/* ============ the question slot — the thing under test ============ */
+.qslot{
+  margin-top:28px;
+  transition:height var(--dur-slow) var(--ease);
+  overflow:visible;          /* the typeahead list has to escape the slot */
+}
+.qslot.is-morphing{overflow:hidden}   /* clip only while the height animates */
+.variant[hidden]{display:none}
+.variant{animation:fade var(--dur-slow) var(--ease) both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* -- B. radio list -------------------------------------------------- */
+.radios{margin-top:10px;display:flex;flex-direction:column;gap:2px}
+.radio{
+  display:flex;align-items:center;gap:12px;padding:9px 10px 9px 0;cursor:pointer;
+  border-radius:2px;transition:background var(--dur-fast) var(--ease-soft);
+}
+.radio:hover{background:#f1efea}
+.radio input{position:absolute;opacity:0;width:0;height:0}
+.dot{
+  flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);
+  background:var(--white);display:grid;place-items:center;
+  transition:border-color var(--dur-fast) var(--ease-soft);
+}
+.dot::after{
+  content:"";width:13px;height:13px;border-radius:50%;background:var(--teal-dark);
+  transform:scale(0);transition:transform var(--dur) var(--ease);
+}
+.radio input:checked + .dot{border-color:var(--teal-dark)}
+.radio input:checked + .dot::after{transform:scale(1)}
+.radio input:focus-visible + .dot{outline:3px solid var(--teal);outline-offset:2px}
+.radio span{font-size:16px;line-height:21px}
+
+/* -- C. chips ------------------------------------------------------- */
+.chips{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--white);border:1px solid var(--line-soft);border-radius:999px;
+  padding:9px 16px 9px 13px;font-size:14.5px;font-weight:400;cursor:pointer;text-align:left;
+  transition:background var(--dur-fast) var(--ease-soft),border-color var(--dur-fast) var(--ease-soft),color var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease);
+}
+.chip svg{width:17px;height:17px;flex:0 0 auto;stroke:#8e9299;stroke-width:1.7;fill:none;transition:stroke var(--dur-fast) var(--ease-soft)}
+.chip:hover{border-color:var(--teal-dark);background:#f0f7f6;transform:translateY(-1px)}
+.chip:hover svg{stroke:var(--teal-dark)}
+.chip[aria-pressed="true"]{background:var(--teal-dark);border-color:var(--teal-dark);color:var(--white);font-weight:600}
+.chip[aria-pressed="true"] svg{stroke:var(--white)}
+.chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+
+/* -- D. two-step ---------------------------------------------------- */
+.stepq{margin-top:10px}
+.groups{display:flex;flex-direction:column;gap:8px}
+.group{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  background:var(--white);border:1px solid var(--line);border-radius:2px;
+  padding:14px 16px;font-size:16px;font-weight:600;cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-soft),border-color var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease);
+}
+.group:hover{background:#f0f7f6;border-color:var(--teal-dark);transform:translateX(2px)}
+.group:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.group svg.gi{width:22px;height:22px;flex:0 0 auto;stroke:var(--teal-dark);stroke-width:1.7;fill:none}
+.group .arr{margin-left:auto;width:20px;height:20px;stroke:var(--ink-2);stroke-width:2;fill:none;flex:0 0 auto}
+.backrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.back{
+  display:inline-flex;align-items:center;gap:7px;background:none;border:0;cursor:pointer;
+  font-size:14px;font-weight:600;color:var(--teal-dark);text-decoration:underline;text-underline-offset:3px;
+  padding:4px 2px;border-radius:2px;
+}
+.back:hover{color:var(--teal-darkest)}
+.back:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
+.back svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none}
+.crumb{font-size:14px;color:var(--muted)}
+
+/* -- E. typeahead --------------------------------------------------- */
+.ta{position:relative;margin-top:8px}
+.ta-input{width:100%;height:48px;background:var(--white);border:1px solid var(--line);border-radius:2px;
+  padding:0 44px 0 12px;font:inherit;font-size:16px;color:var(--ink)}
+.ta-input::placeholder{color:#6a6d75}
+.ta-input:focus{outline:3px solid var(--teal);outline-offset:1px}
+.ta-toggle{
+  position:absolute;right:1px;top:1px;height:46px;width:42px;background:none;border:0;cursor:pointer;
+  display:grid;place-items:center;
+}
+.ta-toggle svg{width:22px;height:22px;stroke:var(--ink-2);stroke-width:2;fill:none;transition:transform var(--dur) var(--ease)}
+.ta.open .ta-toggle svg{transform:rotate(180deg)}
+.ta-list{
+  position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;
+  background:var(--white);border:1px solid var(--line);border-radius:2px;
+  max-height:262px;overflow-y:auto;box-shadow:0 10px 28px rgba(0,0,0,.16);
+}
+.ta-list[hidden]{display:none}
+.ta-opt{padding:11px 14px;font-size:15.5px;cursor:pointer;border-bottom:1px solid #eceae5}
+.ta-opt:last-child{border-bottom:0}
+.ta-opt[aria-selected="true"],.ta-opt:hover{background:var(--teal-dark);color:var(--white)}
+.ta-empty{padding:12px 14px;font-size:14.5px;color:var(--muted)}
+
+/* -- shared: conditional free text + chosen state -------------------- */
+.other{margin-top:14px;padding-left:14px;border-left:4px solid var(--teal-dark)}
+.other[hidden]{display:none}
+.other label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.other input{width:100%;max-width:400px;height:45px;border:1px solid var(--line);border-radius:2px;padding:0 12px;font:inherit;font-size:15.5px}
+.other input:focus{outline:3px solid var(--teal);outline-offset:1px}
+
+.chosen{
+  margin-top:12px;display:flex;align-items:center;gap:9px;
+  font-size:14px;color:var(--teal-darkest);font-weight:600;
+}
+.chosen[hidden]{display:none}
+.chosen svg{width:16px;height:16px;stroke:var(--teal-dark);stroke-width:2.4;fill:none;flex:0 0 auto}
+.chosen button{
+  background:none;border:0;padding:2px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--muted);
+  text-decoration:underline;text-underline-offset:3px;
+}
+.chosen button:hover{color:var(--teal-dark)}
+.chosen button:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px}
+
+/* F. framed whole-page preview */
+.framewrap{background:#fdfbf3}
+.framewrap[hidden]{display:none}
+.framewrap iframe{
+  display:block;width:100%;border:0;
+  height:calc(100vh - 118px);min-height:520px;
+}
+
+.protofoot{
+  max-width:1440px;margin:0 auto;padding:26px 36px 40px;
+  color:rgba(255,255,255,.72);font-size:13px;line-height:1.6;
+}
+
+@media (max-width:1080px){
+  .photo{display:none}
+  .stage::before{width:100%;clip-path:none;opacity:.18}
+  .formcard{max-width:none}
+}
+@media (max-width:640px){
+  .shell{padding:28px 16px 40px}
+  .masthead-in{padding:0 16px}
+  .trust{display:none}
+  .formcard{padding:24px 18px 30px}
+  .formcard h1{font-size:25px}
+  .row2{flex-direction:column;gap:28px}
+  .proto-in{padding:10px 16px 12px}
+  .chip{width:100%}
+}
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    transition-duration:1ms !important;
-    animation-duration:1ms !important;
-  }
+  *,*::before,*::after{transition-duration:1ms !important;animation-duration:1ms !important}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ header ============ -->
-<div class="utility">
-  <div class="wrap">
-    <a href="#">Contact us</a><a href="#">Latest news</a><a href="#">Schools</a><a href="#">Vacancies</a>
+<!-- ============ prototype chrome ============ -->
+<div class="proto">
+  <div class="proto-in">
+    <span class="proto-label">Prototype</span>
+    <div class="proto-tabs" role="tablist" aria-label="Input pattern">
+      <button class="ptab" role="tab" data-variant="select"    aria-selected="true">A · Dropdown <em>current</em></button>
+      <button class="ptab" role="tab" data-variant="radio"     aria-selected="false">B · Radio list</button>
+      <button class="ptab" role="tab" data-variant="chips"     aria-selected="false">C · Chips</button>
+      <button class="ptab" role="tab" data-variant="steps"     aria-selected="false">D · Two-step</button>
+      <button class="ptab" role="tab" data-variant="typeahead" aria-selected="false">E · Typeahead</button>
+      <button class="ptab" role="tab" data-variant="thankyou"  aria-selected="false">F · Thank-you page <em>after payment</em></button>
+    </div>
+    <p class="proto-note" id="proto-note"></p>
   </div>
 </div>
 
+<!-- ============ page ============ -->
 <header class="masthead">
-  <div class="wrap">
+  <div class="masthead-in">
     <a class="logo" href="#"><b>CONCERN</b><span>worldwide</span></a>
-    <nav class="mainnav" aria-label="Main">
-      <a href="#">Our work <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
-      <a href="#">About us <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
-      <a href="#">How to help <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
-      <a href="#">Knowledge Hub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
-    </nav>
-    <div class="head-actions">
-      <button class="icon-btn" aria-label="Search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      </button>
-      <button class="btn-donate">Donate Now</button>
+    <div class="trust">
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#4285f4"/><path d="M12 7v10" stroke="#fff" stroke-width="2"/></svg>
+        <span>Protected by<b>reCAPTCHA</b></span>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="#28a745"/><path d="M8.5 10V7.5a3.5 3.5 0 017 0V10" stroke="#28a745" stroke-width="2" fill="none"/></svg>
+        <span>Secured by<b>SSL Encryption</b></span>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- ============ hero ============ -->
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <h1>Anna, you are amazing.</h1>
-      <h2>Thank you for your support.</h2>
-      <p>This donation will provide a lifeline for families whose lives have been devastated by conflict and climate change.</p>
-    </div>
-    <svg class="heart" viewBox="0 0 200 182" aria-hidden="true">
-      <defs>
-        <clipPath id="heart-clip">
-          <path d="M100 170C40 130 10 96 10 62 10 32 34 12 60 12c18 0 32 9 40 22 8-13 22-22 40-22 26 0 50 20 50 50 0 34-30 68-90 108z"/>
-        </clipPath>
-      </defs>
-      <path d="M100 128c22 0 34 10 45 10 12 0 20-6 27-12v56H28v-56c7 6 15 12 27 12 11 0 23-10 45-10z"
-            fill="#116357" stroke="none" clip-path="url(#heart-clip)"/>
-      <path d="M100 170C40 130 10 96 10 62 10 32 34 12 60 12c18 0 32 9 40 22 8-13 22-22 40-22 26 0 50 20 50 50 0 34-30 68-90 108z"/>
-    </svg>
-  </div>
-</section>
-
-<!-- ============ NEW: attribution question ============ -->
-<section class="attr" aria-labelledby="attr-heading">
-  <div class="wrap">
-    <div class="attr-card">
-      <div class="stage" id="stage">
-
-        <!-- ask -->
-        <div class="panel" id="panel-ask">
-          <h2 id="attr-heading">What motivated your donation today?</h2>
-          <p class="lede">It really helps Concern know how best to reach amazing people like you.</p>
-          <ul class="options" id="options" role="group" aria-labelledby="attr-heading">
-            <li><button class="opt" type="button" data-answer="Any other reason" data-other="true">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.4a2.9 2.9 0 015.6 1c0 1.9-2.8 2.3-2.8 4"/><path d="M12 17.4h.01"/></svg>
-              Any other reason</button></li>
-
-            <li><button class="opt" type="button" data-answer="I received a call from Concern">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.6 4-2 1.5a12 12 0 005.9 5.9l1.5-2 4 1.6v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"/></svg>
-              I received a call from Concern</button></li>
-
-            <li><button class="opt" type="button" data-answer="I received a letter">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="M4.6 7.2l7.4 5.6 7.4-5.6"/></svg>
-              I received a letter</button></li>
-
-            <li><button class="opt" type="button" data-answer="I received an email">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7h17v10.5h-17z"/><path d="M3.5 7l8.5 6 8.5-6"/><path d="M3.5 17.5l6-5M20.5 17.5l-6-5"/></svg>
-              I received an email</button></li>
-
-            <li><button class="opt" type="button" data-answer="I saw an ad on Facebook/Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.8 7.3h.01"/></svg>
-              I saw an ad on Facebook/Instagram</button></li>
-
-            <li><button class="opt" type="button" data-answer="I saw an ad on TV">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11.5" rx="2"/><path d="M8.5 3.5L12 6.5l3.5-3"/></svg>
-              I saw an ad on TV</button></li>
-
-            <li><button class="opt" type="button" data-answer="I saw an ad on YouTube">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="6" width="18.4" height="12" rx="3.6"/><path d="M10.4 9.6l4.6 2.4-4.6 2.4z"/></svg>
-              I saw an ad on YouTube</button></li>
-          </ul>
-        </div>
-
-        <!-- thanks -->
-        <div class="panel" id="panel-thanks" hidden>
-          <div class="thanks" id="thanks">
-            <div class="tick" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-            </div>
-            <div class="thanks-body">
-              <div class="thanks-row">
-                <h3 tabindex="-1" id="thanks-heading">Thank you, that's really useful.</h3>
-                <button class="undo" type="button" id="undo">Change answer</button>
-              </div>
-
-              <div class="followup" id="followup" hidden>
-                <label for="other-input">If you'd like, tell us what it was</label>
-                <div class="row" id="followup-row">
-                  <input id="other-input" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
-                  <button class="btn-send" type="button" id="send-other">Send</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <p class="sr-only" role="status" aria-live="polite" id="live"></p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ keep this feeling growing ============ -->
-<section class="wrap">
-  <div class="grow">
-    <h2>Keep this feeling growing.</h2>
-    <div class="grow-cards">
-      <div class="grow-card">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5c-5-3.6-8-6.8-8-10.2A4.3 4.3 0 0112 8a4.3 4.3 0 018 2.3c0 3.4-3 6.6-8 10.2z"/></svg>
-        <div>
-          <p>Join our community of regular givers and make a difference all year round.</p>
-          <button class="btn-solid" type="button">Give monthly <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-        </div>
-      </div>
-      <div class="grow-card tinted">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3"/><circle cx="16.5" cy="10" r="2.3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M15 14.5c2.6 0 5 1.7 5 4.5"/></svg>
-        <div>
-          <p>Take part in the Dublin 2025 Marathon and fundraise with Concern.</p>
-          <button class="btn-ghost" type="button">Learn more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="share">
-    <div class="share-card">
-      <p>Take it a step further and share this with your friends.</p>
-      <div class="socials">
-        <button class="social" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5H16.6V4.4A21 21 0 0014.3 4.3c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/></svg></button>
-        <button class="social" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 4h2.6l-5.7 6.5L21 20h-5.2l-4-5.3L7 20H4.4l6.1-7L3.7 4H9l3.6 4.8zm-.9 14.4h1.4L8.4 5.5H6.9z"/></svg></button>
-        <button class="social" aria-label="Share on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.4c-1.5 0-1.7 0-2.3.03-1.7.08-2.5.9-2.6 2.6C7 9.7 7 9.9 7 12s0 2.3.03 2.9c.08 1.7.9 2.5 2.6 2.6.6.03.8.03 2.3.03s1.7 0 2.3-.03c1.7-.08 2.5-.9 2.6-2.6.03-.6.03-.8.03-2.9s0-2.3-.03-2.9c-.08-1.7-.9-2.5-2.6-2.6-.6-.03-.8-.03-2.3-.03zm0 2.7a2.9 2.9 0 110 5.8 2.9 2.9 0 010-5.8zm0 1.5a1.4 1.4 0 100 2.8 1.4 1.4 0 000-2.8zm3.1-1.9a.7.7 0 110 1.4.7.7 0 010-1.4zM12 4c2.2 0 2.4 0 3.3.05 2.5.12 3.7 1.3 3.8 3.8.04.9.05 1.1.05 3.3s0 2.4-.05 3.3c-.12 2.5-1.3 3.7-3.8 3.8-.9.04-1.1.05-3.3.05s-2.4 0-3.3-.05c-2.5-.12-3.7-1.3-3.8-3.8C4.8 14.4 4.8 14.2 4.8 12s0-2.4.05-3.3C4.97 6.2 6.2 5 8.7 4.9 9.6 4.8 9.8 4.8 12 4.8z"/></svg></button>
-        <button class="social" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 9.4v9.1H4.6V9.4zM6 5a1.7 1.7 0 110 3.4A1.7 1.7 0 016 5zm3.7 4.4h2.8v1.25a3 3 0 012.7-1.5c2.1 0 3.3 1.3 3.3 3.9v5.45h-2.9v-4.8c0-1.2-.4-2-1.5-2s-1.6.75-1.6 2v4.8H9.7z"/></svg></button>
-      </div>
-    </div>
-    <svg class="spread" viewBox="0 0 340 200" aria-hidden="true">
-      <path d="M40 34h250M40 34v130M40 164h250M290 34v130" stroke-linecap="round"/>
-      <rect x="88" y="66" width="180" height="76" rx="3"/>
-      <circle cx="66" cy="92" r="11"/>
-      <path d="M56 112c1-6 5-9 10-9s9 3 10 9"/>
-      <path d="M96 78c0 6 4 8 4 8m8-8c0 6 4 8 4 8" stroke-linecap="round"/>
-      <path d="M124 116c14-14 44-18 66-14s38 12 52 4" stroke-linecap="round"/>
-      <path d="M14 24l12 10M22 8l4 14M300 12l-4 16M318 30l-14 8M46 178l-6 12M290 178l8 12" stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <!-- ============ article ============ -->
-  <div class="article">
-    <div class="article-copy">
-      <h2>How we are building food security to end hunger</h2>
-      <p>The world produces enough food for everyone, yet around 10% of the global population still lacks food security. But what exactly does food security mean?</p>
-      <button class="btn-solid" type="button">Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
-    <div class="article-photo"><span>Photo placeholder</span></div>
-  </div>
-
-  <!-- ============ confirmation ============ -->
-  <div class="confirm">
-    <h2>Your donation makes a difference.<br>Thank you.</h2>
-    <p>Your confirmation number is 019283. You will receive an email shortly with the details of your donation.</p>
-    <p>If you have any questions, feel free to reach out to us at <a href="mailto:info@concern.net">info@concern.net</a>.</p>
-  </div>
-</section>
-
-<div class="protonote">
-  <div>Prototype by SystemSeed, for the Concern Worldwide offline-to-online attribution discussion. Not an official Concern build; photography and illustration are placeholders.</div>
+<!-- F. the question moved off the form entirely — the whole page, framed -->
+<div class="framewrap" id="framewrap" hidden>
+  <iframe id="frame" title="Thank-you page prototype with the attribution question on it"
+          data-src="thank-you-attribution.html" loading="lazy"></iframe>
 </div>
+
+<div class="stage" id="stage">
+  <div class="photo"><span>Photo placeholder</span></div>
+
+  <div class="shell">
+    <form class="formcard" id="form" novalidate>
+      <h1>Your monthly support will transform lives</h1>
+
+      <ol class="steps">
+        <li class="step done"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5l4 4 8-8"/></svg> Name &amp; email</li>
+        <li class="step now">Address</li>
+        <li class="step">Payment</li>
+      </ol>
+
+      <div class="banner">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-5-3.6-8-6.6-8-10a4 4 0 018-1.4A4 4 0 0120 10c0 3.4-3 6.4-8 10z"/></svg>
+        <p>€21 a month could provide seven people with farming equipment, helping to rebuild their livelihoods</p>
+      </div>
+
+      <div class="field">
+        <label class="flabel" for="country">Country <span class="opt">(required)</span></label>
+        <select class="control" id="country"><option>Ireland</option><option>United Kingdom</option></select>
+      </div>
+
+      <div class="field">
+        <label class="flabel" for="addrsearch">Address search</label>
+        <div class="searchrow">
+          <input id="addrsearch" type="text" placeholder="Enter your address or Eircode" autocomplete="off">
+          <button type="button">Search</button>
+        </div>
+        <p class="hint">Search for your address to autofill the fields below or enter it manually</p>
+      </div>
+
+      <div class="field">
+        <label class="flabel" for="line1">Address <span class="opt">(required)</span></label>
+        <input class="control control-sm" id="line1" type="text" placeholder="Line 1" style="margin-bottom:8px">
+        <input class="control control-sm" type="text" placeholder="Line 2 (optional)">
+      </div>
+
+      <div class="field">
+        <label class="flabel" for="town">Town <span class="opt">(required)</span></label>
+        <input class="control control-sm" id="town" type="text">
+      </div>
+
+      <div class="field row2">
+        <div>
+          <label class="flabel" for="county">County <span class="opt">(optional)</span></label>
+          <input class="control control-sm" id="county" type="text">
+        </div>
+        <div>
+          <label class="flabel" for="postcode">Postcode <span class="opt">(optional)</span></label>
+          <input class="control control-sm" id="postcode" type="text">
+        </div>
+      </div>
+
+      <!-- ==================== THE QUESTION UNDER TEST ==================== -->
+      <div class="qslot" id="qslot">
+
+        <!-- A. current: select ---------------------------------------- -->
+        <section class="variant" id="v-select" aria-labelledby="lab-select">
+          <label class="flabel" id="lab-select" for="sel">What motivated your contribution today? <span class="opt">(required)</span></label>
+          <select class="control" id="sel">
+            <option value="">Select a reason</option>
+            <option>Any other reason</option>
+            <option>I received a call from Concern</option>
+            <option>I received a letter</option>
+            <option>I received an email</option>
+            <option>I saw an ad on Facebook/Instagram</option>
+            <option>I saw an ad on TV</option>
+            <option>I saw an ad on YouTube</option>
+          </select>
+          <div class="other" data-other hidden>
+            <label for="o-select">Tell us more (optional)</label>
+            <input id="o-select" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+          </div>
+          <p class="hint">Your answer will help us to more effectively plan our fundraising activities</p>
+        </section>
+
+        <!-- B. radio list ---------------------------------------------- -->
+        <section class="variant" id="v-radio" hidden>
+          <fieldset>
+            <legend class="flabel">What motivated your contribution today? <span class="opt">(required)</span></legend>
+            <div class="radios" id="radios"></div>
+          </fieldset>
+          <div class="other" data-other hidden>
+            <label for="o-radio">Tell us more (optional)</label>
+            <input id="o-radio" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+          </div>
+          <p class="hint">Your answer will help us to more effectively plan our fundraising activities</p>
+        </section>
+
+        <!-- C. chips ---------------------------------------------------- -->
+        <section class="variant" id="v-chips" hidden aria-labelledby="lab-chips">
+          <p class="flabel" id="lab-chips">What motivated your contribution today? <span class="opt">(required)</span></p>
+          <div class="chips" id="chips" role="group" aria-labelledby="lab-chips"></div>
+          <div class="other" data-other hidden>
+            <label for="o-chips">Tell us more (optional)</label>
+            <input id="o-chips" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+          </div>
+          <p class="hint">Your answer will help us to more effectively plan our fundraising activities</p>
+        </section>
+
+        <!-- D. two-step -------------------------------------------------- -->
+        <section class="variant" id="v-steps" hidden aria-labelledby="lab-steps">
+          <p class="flabel" id="lab-steps">What motivated your contribution today? <span class="opt">(required)</span></p>
+          <div class="stepq" id="stepq"></div>
+          <div class="other" data-other hidden>
+            <label for="o-steps">Tell us more (optional)</label>
+            <input id="o-steps" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+          </div>
+          <p class="hint">Your answer will help us to more effectively plan our fundraising activities</p>
+        </section>
+
+        <!-- E. typeahead -------------------------------------------------- -->
+        <section class="variant" id="v-typeahead" hidden>
+          <label class="flabel" for="ta-input">What motivated your contribution today? <span class="opt">(required)</span></label>
+          <div class="ta" id="ta">
+            <input class="ta-input" id="ta-input" type="text" role="combobox"
+                   aria-expanded="false" aria-controls="ta-list" aria-autocomplete="list"
+                   autocomplete="off" placeholder="Start typing, or pick from the list">
+            <button class="ta-toggle" type="button" id="ta-toggle" aria-label="Show all reasons" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <ul class="ta-list" id="ta-list" role="listbox" aria-label="Reasons" hidden></ul>
+          </div>
+          <div class="other" data-other hidden>
+            <label for="o-typeahead">Tell us more (optional)</label>
+            <input id="o-typeahead" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+          </div>
+          <p class="hint">Your answer will help us to more effectively plan our fundraising activities</p>
+        </section>
+
+      </div>
+
+      <div class="chosen" id="chosen" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span id="chosen-text"></span>
+        <button type="button" id="clear">Clear</button>
+      </div>
+
+      <button class="submit" type="button" id="submit" disabled>Proceed to payment</button>
+      <p class="sr-only" role="status" aria-live="polite" id="live"></p>
+    </form>
+  </div>
+</div>
+
+<p class="protofoot">
+  Prototype by SystemSeed, for the Concern Worldwide offline-to-online attribution discussion.
+  Six approaches to one question: five input patterns in the Address step from the Donation
+  forms Figma, plus moving it off the form onto the thank-you page.
+  Not an official Concern build; photography and illustration are placeholders.
+</p>
 
 <script>
 (function () {
-  var stage     = document.getElementById('stage');
-  var panelAsk  = document.getElementById('panel-ask');
-  var panelThx  = document.getElementById('panel-thanks');
-  var thanks    = document.getElementById('thanks');
-  var followup  = document.getElementById('followup');
-  var live      = document.getElementById('live');
-  var heading   = document.getElementById('thanks-heading');
-  var opts      = Array.prototype.slice.call(document.querySelectorAll('.opt'));
+  'use strict';
 
+  /* The seven options exactly as they appear in the live flow, in the
+     alphabetical order of the second screenshot. Only the input pattern
+     changes between variants — the list never does, so the comparison
+     tests one thing. */
+  var OPTIONS = [
+    { label: 'Any other reason',                 other: true,  icon: 'q' },
+    { label: 'I received a call from Concern',   group: 'got', icon: 'phone' },
+    { label: 'I received a letter',              group: 'got', icon: 'letter' },
+    { label: 'I received an email',              group: 'got', icon: 'mail' },
+    { label: 'I saw an ad on Facebook/Instagram',group: 'ad',  icon: 'ig' },
+    { label: 'I saw an ad on TV',                group: 'ad',  icon: 'tv' },
+    { label: 'I saw an ad on YouTube',           group: 'ad',  icon: 'yt' }
+  ];
+
+  var GROUPS = [
+    { id: 'ad',    label: 'I saw an ad',            icon: 'tv' },
+    { id: 'got',   label: 'Concern got in touch',   icon: 'letter' },
+    { id: 'other', label: 'Something else',         icon: 'q' }
+  ];
+
+  var ICON = {
+    q:      '<circle cx="12" cy="12" r="9"/><path d="M9.2 9.4a2.9 2.9 0 015.6 1c0 1.9-2.8 2.3-2.8 4"/><path d="M12 17.4h.01"/>',
+    phone:  '<path d="M6.5 3.5h3l1.6 4-2 1.5a12 12 0 005.9 5.9l1.5-2 4 1.6v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"/>',
+    letter: '<path d="M4 6.5h16v11H4z"/><path d="M4.6 7.2l7.4 5.6 7.4-5.6"/>',
+    mail:   '<path d="M3.5 7h17v10.5h-17z"/><path d="M3.5 7l8.5 6 8.5-6"/>',
+    ig:     '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.8 7.3h.01"/>',
+    tv:     '<rect x="3" y="6.5" width="18" height="11.5" rx="2"/><path d="M8.5 3.5L12 6.5l3.5-3"/>',
+    yt:     '<rect x="2.8" y="6" width="18.4" height="12" rx="3.6"/><path d="M10.4 9.6l4.6 2.4-4.6 2.4z"/>'
+  };
+  function svg(name, cls) {
+    return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + ICON[name] + '</svg>';
+  }
+
+  var NOTES = {
+    select: '<b>A · Dropdown (what is live today).</b> One line whatever the list length, and every option is hidden until tapped. Users cannot see what is on offer before committing to open it, and on mobile it hands over to the OS picker. Cheapest to build, hardest to answer accurately.',
+    radio:  '<b>B · Radio list.</b> Every option visible with no interaction, so people answer from recognition rather than memory. The pattern GOV.UK reaches for by default. Costs the most vertical space, which is why it sits badly this far down a long form.',
+    chips:  '<b>C · Chips.</b> All options visible in about half the height of the radio list, and one tap answers. Reads as light rather than official. The risk is that chips look like filters, so people may not register it as a question they are answering.',
+    steps:  '<b>D · Two-step.</b> Three broad choices first, then the specific one. Never more than three things to weigh at once, and adding radio or press later costs nothing at the top level. The trade is two taps instead of one, and a back step to design.',
+    typeahead: '<b>E · Typeahead.</b> Type to filter, or open the full list. The only pattern here that stays usable if the list grows past ten, which matters given radio, press, outdoor, search and word of mouth are all missing today. Assumes people know roughly what to type.',
+    thankyou:  '<b>F · Off the form altogether.</b> A to E all argue about the control. This changes where the question is asked: after the gift, on the thank-you page, optional, one tap. Nothing stands between the donor and paying, so the answer costs no conversion — the trade is that some people leave without answering at all. The whole page, live below.'
+  };
+
+  /* ---------------------------------------------------------------- */
+  var qslot   = document.getElementById('qslot');
+  var note    = document.getElementById('proto-note');
+  var tabs    = [].slice.call(document.querySelectorAll('.ptab'));
+  var chosen  = document.getElementById('chosen');
+  var chosenT = document.getElementById('chosen-text');
+  var submit  = document.getElementById('submit');
+  var live    = document.getElementById('live');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var busy = false;
 
-  /* Animate the stage from its current height to whatever the new panel needs.
-     Height is pinned for the duration, then released back to auto so the
-     section keeps reflowing normally afterwards. */
-  function morph(swap, done) {
-    if (reduced) { swap(); if (done) done(); return; }
+  var stageEl   = document.getElementById('stage');
+  var framewrap = document.getElementById('framewrap');
+  var frame     = document.getElementById('frame');
 
-    var from = stage.getBoundingClientRect().height;
-    stage.style.height = from + 'px';
-    void stage.offsetHeight;          // commit the pinned height
+  /* `current` is the active tab and may be 'thankyou', which has no panel.
+     `currentForm` is the .variant actually mounted in the form, so returning
+     from F knows what to take down. */
+  var current     = 'select';
+  var currentForm = 'select';
+  var answer      = null;
 
+  function panel(name) { return document.getElementById('v-' + name); }
+
+  /* Animate the slot between two heights, then release to auto so the
+     form keeps reflowing normally. */
+  function morph(swap) {
+    if (reduced) { swap(); return; }
+    var from = qslot.getBoundingClientRect().height;
+    qslot.classList.add('is-morphing');
+    qslot.style.height = from + 'px';
+    void qslot.offsetHeight;
     swap();
-
-    var to = stage.scrollHeight;
-    requestAnimationFrame(function () {
-      stage.style.height = to + 'px';
-    });
-
-    var settled = false;
+    var to = qslot.scrollHeight;
+    requestAnimationFrame(function () { qslot.style.height = to + 'px'; });
+    var done = false;
     function release(e) {
-      if (e && e.target !== stage) return;
-      if (settled) return;
-      settled = true;
-      stage.removeEventListener('transitionend', release);
-      stage.style.height = '';
-      if (done) done();
+      if (e && e.target !== qslot) return;
+      if (done) return;
+      done = true;
+      qslot.removeEventListener('transitionend', release);
+      qslot.style.height = '';
+      qslot.classList.remove('is-morphing');
     }
-    stage.addEventListener('transitionend', release);
-    setTimeout(release, 900);         // safety net if transitionend never fires
+    qslot.addEventListener('transitionend', release);
+    setTimeout(release, 800);
   }
 
-  function choose(btn) {
-    if (busy) return;
-    busy = true;
+  function setAnswer(label, isOther) {
+    answer = label;
+    chosenT.textContent = 'Recorded: ' + label;
+    chosen.hidden = false;
+    submit.disabled = false;
+    submit.classList.add('ready');
+    live.textContent = label + ' selected.';
 
-    var answer  = btn.getAttribute('data-answer');
-    var isOther = btn.getAttribute('data-other') === 'true';
-
-    followup.hidden = !isOther;
-
-    /* 1. the chosen pill confirms on its own first */
-    btn.classList.add('is-chosen');
-    opts.forEach(function (o) { o.setAttribute('tabindex', '-1'); });
-
-    var ack = reduced ? 0 : 170;
-
-    setTimeout(function () {
-      /* 2. the group clears, nearest-first, so it reads as a sweep */
-      if (!reduced) {
-        var i = opts.indexOf(btn);
-        opts.forEach(function (o, n) {
-          setTimeout(function () { o.classList.add('is-dismissed'); }, Math.abs(n - i) * 34);
-        });
-      }
-
-      var clearAt = reduced ? 0 : 34 * opts.length + 180;
-
-      setTimeout(function () {
-        /* 3. swap panels and ease the container to its new height */
-        morph(function () {
-          panelAsk.hidden = true;
-          panelThx.hidden = false;
-        }, null);
-
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () { thanks.classList.add('is-in'); });
-        });
-
-        live.textContent = 'Thank you. Your answer, ' + answer + ', has been recorded.';
-        heading.focus({ preventScroll: true });
-        busy = false;
-      }, clearAt);
-    }, ack);
+    var box = panel(currentForm).querySelector('[data-other]');
+    if (box) box.hidden = !isOther;
   }
 
-  function reset() {
-    if (busy) return;
-    busy = true;
+  function clearAnswer(quiet) {
+    answer = null;
+    chosen.hidden = true;
+    submit.disabled = true;
+    submit.classList.remove('ready');
+    if (!quiet) live.textContent = 'Answer cleared.';
 
-    thanks.classList.remove('is-in');
+    /* reset every variant's own controls */
+    document.getElementById('sel').value = '';
+    [].forEach.call(document.querySelectorAll('#radios input'), function (r) { r.checked = false; });
+    [].forEach.call(document.querySelectorAll('#chips .chip'), function (c) { c.setAttribute('aria-pressed', 'false'); });
+    [].forEach.call(document.querySelectorAll('[data-other]'), function (b) {
+      b.hidden = true;
+      var i = b.querySelector('input'); if (i) i.value = '';
+    });
+    document.getElementById('ta-input').value = '';
+    closeTa();
+    renderGroups();
+  }
 
-    setTimeout(function () {
+  /* ---- switcher --------------------------------------------------- */
+  function select(name) {
+    if (name === current) return;
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.getAttribute('data-variant') === name));
+    });
+    note.innerHTML = NOTES[name];
+    clearAnswer(true);
+
+    /* F swaps the whole page, not the field, so the form steps aside. */
+    if (name === 'thankyou') {
+      current = name;
+      stageEl.hidden = true;
+      framewrap.hidden = false;
+      if (!frame.getAttribute('src')) frame.setAttribute('src', frame.getAttribute('data-src'));
+      live.textContent = 'Showing the thank-you page, where the question is asked after the gift.';
+      return;
+    }
+
+    var leavingFrame = (current === 'thankyou');
+    current = name;
+
+    if (leavingFrame) {
+      framewrap.hidden = true;
+      stageEl.hidden = false;
+      panel(currentForm).hidden = true;
+      panel(name).hidden = false;
+      currentForm = name;
+    } else {
       morph(function () {
-        panelThx.hidden = true;
-        panelAsk.hidden = false;
-        opts.forEach(function (o) {
-          o.classList.remove('is-chosen', 'is-dismissed');
-          o.removeAttribute('tabindex');
-        });
-        resetFollowup();
-      }, null);
-
-      live.textContent = 'Your answer has been cleared. Please choose again.';
-      var first = opts[0];
-      if (first) first.focus({ preventScroll: true });
-      busy = false;
-    }, reduced ? 0 : 240);
-  }
-
-  /* optional free text, only for "Any other reason" */
-  var row   = document.getElementById('followup-row');
-  var input = document.getElementById('other-input');
-  var send  = document.getElementById('send-other');
-  var rowHTML = row.innerHTML;
-
-  function resetFollowup() {
-    if (row.innerHTML !== rowHTML) {
-      row.innerHTML = rowHTML;
-      input = document.getElementById('other-input');
-      send  = document.getElementById('send-other');
-      bindFollowup();
+        panel(currentForm).hidden = true;
+        panel(name).hidden = false;
+        currentForm = name;
+      });
     }
-    if (input) input.value = '';
+    live.textContent = 'Switched to pattern ' + name + '. Answer cleared.';
   }
 
-  function submitOther() {
-    var v = input.value.trim();
-    if (!v) { input.focus(); return; }
-    morph(function () {
-      row.innerHTML = '<p class="done">Got it. Thank you for the extra detail.</p>';
-    }, null);
-    live.textContent = 'Thank you for the extra detail.';
-  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { select(t.getAttribute('data-variant')); });
+  });
 
-  function bindFollowup() {
-    if (!send) return;
-    send.addEventListener('click', submitOther);
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') { e.preventDefault(); submitOther(); }
+  /* ---- A. select --------------------------------------------------- */
+  document.getElementById('sel').addEventListener('change', function () {
+    if (!this.value) { clearAnswer(); return; }
+    var o = OPTIONS.filter(function (x) { return x.label === this.value; }, this)[0];
+    morph(function () { setAnswer(this.value, !!(o && o.other)); }.bind(this));
+  });
+
+  /* ---- B. radio list ----------------------------------------------- */
+  var radios = document.getElementById('radios');
+  OPTIONS.forEach(function (o, i) {
+    var id = 'r' + i;
+    var l = document.createElement('label');
+    l.className = 'radio';
+    l.innerHTML = '<input type="radio" name="motivation" id="' + id + '" value="' + o.label + '">' +
+                  '<span class="dot"></span><span>' + o.label + '</span>';
+    radios.appendChild(l);
+    l.querySelector('input').addEventListener('change', function () {
+      morph(function () { setAnswer(o.label, !!o.other); });
+    });
+  });
+
+  /* ---- C. chips ----------------------------------------------------- */
+  var chipwrap = document.getElementById('chips');
+  OPTIONS.forEach(function (o) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = svg(o.icon) + o.label;
+    chipwrap.appendChild(b);
+    b.addEventListener('click', function () {
+      [].forEach.call(chipwrap.children, function (c) { c.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      morph(function () { setAnswer(o.label, !!o.other); });
+    });
+  });
+
+  /* ---- D. two-step --------------------------------------------------- */
+  var stepq = document.getElementById('stepq');
+
+  function renderGroups() {
+    stepq.innerHTML = '<div class="groups"></div>';
+    var wrap = stepq.firstChild;
+    GROUPS.forEach(function (g) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'group';
+      b.innerHTML = svg(g.icon, 'gi') + '<span>' + g.label + '</span>' +
+        '<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+      wrap.appendChild(b);
+      b.addEventListener('click', function () {
+        if (g.id === 'other') {
+          morph(function () {
+            renderGroupChosen(g);
+            setAnswer('Any other reason', true);
+          });
+          return;
+        }
+        morph(function () { renderDetail(g); });
+      });
     });
   }
 
-  opts.forEach(function (btn) {
-    btn.addEventListener('click', function () { choose(btn); });
+  function backRow(g, onBack) {
+    var row = document.createElement('div');
+    row.className = 'backrow';
+    row.innerHTML = '<button type="button" class="back">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Back</button>' +
+      '<span class="crumb">' + g.label + '</span>';
+    row.querySelector('.back').addEventListener('click', onBack);
+    return row;
+  }
+
+  function renderDetail(g) {
+    stepq.innerHTML = '';
+    stepq.appendChild(backRow(g, function () {
+      clearAnswer(true);
+      morph(renderGroups);
+    }));
+    var wrap = document.createElement('div');
+    wrap.className = 'groups';
+    stepq.appendChild(wrap);
+
+    OPTIONS.filter(function (o) { return o.group === g.id; }).forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'group';
+      b.innerHTML = svg(o.icon, 'gi') + '<span>' + o.label + '</span>';
+      wrap.appendChild(b);
+      b.addEventListener('click', function () {
+        morph(function () {
+          renderGroupChosen(g, o.label);
+          setAnswer(o.label, false);
+        });
+      });
+    });
+    var first = wrap.querySelector('.group');
+    if (first) first.focus({ preventScroll: true });
+  }
+
+  function renderGroupChosen(g, label) {
+    stepq.innerHTML = '';
+    stepq.appendChild(backRow(g, function () {
+      clearAnswer(true);
+      morph(renderGroups);
+    }));
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'group';
+    b.style.borderColor = 'var(--teal-dark)';
+    b.style.background = '#f0f7f6';
+    b.innerHTML = '<svg class="gi" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' +
+                  '<span>' + (label || g.label) + '</span>';
+    b.addEventListener('click', function () {
+      clearAnswer(true);
+      morph(renderGroups);
+    });
+    stepq.appendChild(b);
+  }
+  renderGroups();
+
+  /* ---- E. typeahead --------------------------------------------------- */
+  var ta      = document.getElementById('ta');
+  var taInput = document.getElementById('ta-input');
+  var taList  = document.getElementById('ta-list');
+  var taBtn   = document.getElementById('ta-toggle');
+  var active  = -1;
+  var shown   = [];
+
+  function openTa(filter) {
+    var q = (filter || '').trim().toLowerCase();
+    shown = OPTIONS.filter(function (o) { return !q || o.label.toLowerCase().indexOf(q) > -1; });
+    taList.innerHTML = '';
+    if (!shown.length) {
+      taList.innerHTML = '<li class="ta-empty">No match. Pick “Any other reason” and tell us in your own words.</li>';
+    } else {
+      shown.forEach(function (o, i) {
+        var li = document.createElement('li');
+        li.className = 'ta-opt';
+        li.id = 'ta-o' + i;
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', 'false');
+        li.textContent = o.label;
+        li.addEventListener('mousedown', function (e) { e.preventDefault(); pick(i); });
+        taList.appendChild(li);
+      });
+    }
+    taList.hidden = false;
+    ta.classList.add('open');
+    taInput.setAttribute('aria-expanded', 'true');
+    active = -1;
+  }
+
+  function closeTa() {
+    taList.hidden = true;
+    ta.classList.remove('open');
+    taInput.setAttribute('aria-expanded', 'false');
+    taInput.removeAttribute('aria-activedescendant');
+    active = -1;
+  }
+
+  function highlight(i) {
+    [].forEach.call(taList.children, function (li, n) {
+      li.setAttribute('aria-selected', String(n === i));
+    });
+    active = i;
+    if (i > -1 && taList.children[i]) {
+      taInput.setAttribute('aria-activedescendant', taList.children[i].id);
+      taList.children[i].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function pick(i) {
+    var o = shown[i];
+    if (!o) return;
+    taInput.value = o.label;
+    closeTa();
+    morph(function () { setAnswer(o.label, !!o.other); });
+  }
+
+  taInput.addEventListener('input', function () { openTa(taInput.value); });
+  taInput.addEventListener('focus', function () { openTa(taInput.value); });
+  taInput.addEventListener('blur',  function () { setTimeout(closeTa, 120); });
+  taBtn.addEventListener('click', function () {
+    if (taList.hidden) { taInput.focus(); openTa(''); } else { closeTa(); }
   });
-  document.getElementById('undo').addEventListener('click', reset);
-  bindFollowup();
+  taInput.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (taList.hidden) { openTa(taInput.value); return; }
+      var n = taList.querySelectorAll('.ta-opt').length;
+      if (!n) return;
+      highlight(e.key === 'ArrowDown'
+        ? (active + 1) % n
+        : (active <= 0 ? n - 1 : active - 1));
+    } else if (e.key === 'Enter') {
+      if (!taList.hidden && active > -1) { e.preventDefault(); pick(active); }
+    } else if (e.key === 'Escape') {
+      closeTa();
+    }
+  });
+
+  /* ---- shared ---------------------------------------------------------- */
+  document.getElementById('clear').addEventListener('click', function () {
+    morph(function () { clearAnswer(); });
+    live.textContent = 'Answer cleared.';
+  });
+
+  submit.addEventListener('click', function () {
+    if (submit.disabled) return;
+    live.textContent = 'Prototype: this would go to the Payment step.';
+    submit.textContent = 'Prototype — no payment step';
+    setTimeout(function () { submit.textContent = 'Proceed to payment'; }, 1800);
+  });
+
+  note.innerHTML = NOTES.select;
 })();
 </script>
 </body>

@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cpath%20d='M16%2028C6%2021%202%2016.5%202%2011%202%206%206%203%2010%203c2.6%200%204.8%201.4%206%203.4C17.2%204.4%2019.4%203%2022%203c4%200%208%203%208%208%200%205.5-4%2010-14%2017z'%20fill='%23116357'/%3E%3C/svg%3E">
+<title>Concern Worldwide — thank you page with post-gift attribution (prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ------------------------------------------------------------------
+   Concern Worldwide — thank-you page prototype
+   Colours sampled from the supplied screenshot. Not an official
+   Concern brand file: a working prototype for the attribution question.
+   ------------------------------------------------------------------ */
+:root{
+  --teal-900:#0a4c43;
+  --teal-800:#0d5a4f;
+  --teal-700:#116357;
+  --teal-600:#17796a;
+  --green-logo:#22a44b;
+  --crimson:#c2005c;
+  --cream:#fdfbf3;
+  --ink:#1b2b28;
+  --ink-soft:#3f524e;
+  --rule:#e4e0d3;
+  --blue-100:#d8eef8;
+  --blue-050:#e8f5fb;
+  --yellow-100:#fdf1c8;
+  --sage-100:#d7e6df;
+  --white:#fff;
+
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:22px;
+  --r-pill:999px;
+
+  --shadow-1:0 1px 2px rgba(10,76,67,.06), 0 2px 8px rgba(10,76,67,.05);
+  --shadow-2:0 2px 4px rgba(10,76,67,.07), 0 12px 28px rgba(10,76,67,.11);
+
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --dur-fast:180ms;
+  --dur:320ms;
+  --dur-slow:560ms;
+
+  --maxw:1100px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"Figtree",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- header ---------- */
+.utility{background:var(--white);border-bottom:1px solid transparent}
+.utility .wrap{display:flex;justify-content:flex-end;gap:0;padding-top:10px;padding-bottom:2px}
+.utility a{
+  color:var(--teal-700);text-decoration:none;font-size:13.5px;font-weight:500;
+  padding:0 14px;border-right:1px solid var(--rule);
+}
+.utility a:last-child{border-right:0;padding-right:0}
+.utility a:hover{text-decoration:underline}
+
+.masthead{background:var(--white);position:sticky;top:0;z-index:20;box-shadow:0 1px 0 rgba(27,43,40,.06)}
+.masthead .wrap{display:flex;align-items:center;gap:34px;padding-top:14px;padding-bottom:16px}
+.logo{display:flex;flex-direction:column;line-height:.86;text-decoration:none;flex:0 0 auto}
+.logo b{
+  font-size:27px;font-weight:800;letter-spacing:.005em;color:var(--green-logo);
+  font-family:"Figtree",sans-serif;
+}
+.logo span{font-size:12.5px;font-weight:600;color:var(--green-logo);letter-spacing:.09em;padding-left:2px}
+.mainnav{display:flex;gap:26px;flex:1 1 auto}
+.mainnav a{
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--ink);text-decoration:none;font-size:15.5px;font-weight:500;
+}
+.mainnav a:hover{color:var(--teal-600)}
+.mainnav svg{width:13px;height:13px;stroke:var(--teal-600);stroke-width:2.2;fill:none}
+.head-actions{display:flex;align-items:center;gap:18px;flex:0 0 auto}
+.icon-btn{
+  background:none;border:0;padding:6px;cursor:pointer;border-radius:var(--r-pill);
+  display:grid;place-items:center;transition:background var(--dur-fast) var(--ease-soft);
+}
+.icon-btn:hover{background:#f0f4f2}
+.icon-btn svg{width:21px;height:21px;stroke:var(--ink);stroke-width:2;fill:none}
+.btn-donate{
+  background:var(--crimson);color:var(--white);border:0;cursor:pointer;
+  padding:13px 26px;border-radius:var(--r-pill);font-weight:700;font-size:16px;
+  transition:transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease-soft);
+}
+.btn-donate:hover{background:#a80050;transform:translateY(-1px);box-shadow:var(--shadow-2)}
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 44px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px;align-items:start}
+.hero h1{
+  font-size:clamp(34px,5vw,53px);line-height:1.06;font-weight:800;color:var(--teal-700);
+  letter-spacing:-.02em;margin-bottom:26px;
+}
+.hero h2{font-size:22px;font-weight:700;margin-bottom:10px}
+.hero p{color:var(--ink-soft);max-width:44ch;font-size:16.5px}
+.heart{width:180px;height:auto;justify-self:end;stroke:var(--teal-700);fill:none;stroke-width:5.5}
+
+/* ==================================================================
+   ATTRIBUTION QUESTION — the new section
+   ================================================================== */
+.attr{padding:0 0 46px}
+.attr-card{
+  border-top:1px solid var(--rule);
+  padding:26px 0 0;
+}
+.attr h2{font-size:20px;font-weight:700;letter-spacing:-.005em;line-height:1.25}
+.attr .lede{
+  color:var(--ink-soft);margin-top:6px;max-width:64ch;font-size:15px;line-height:1.5;
+}
+
+/* stage animates its own height between the two states */
+.stage{
+  transition:height var(--dur-slow) var(--ease);
+  overflow:hidden;
+  will-change:height;
+}
+.panel[hidden]{display:none}
+
+/* --- ask state --- */
+.options{
+  display:flex;flex-wrap:wrap;gap:9px;
+  margin-top:16px;padding:0;list-style:none;
+}
+.opt{
+  --lift:0px;
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--white);
+  border:1px solid #e5e1d3;
+  border-radius:var(--r-pill);
+  padding:9px 16px 9px 13px;
+  font-size:14.5px;font-weight:500;color:var(--ink-soft);
+  cursor:pointer;
+  text-align:left;
+  transition:
+    transform var(--dur) var(--ease),
+    opacity var(--dur) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft),
+    color var(--dur-fast) var(--ease-soft),
+    background var(--dur-fast) var(--ease-soft),
+    box-shadow var(--dur-fast) var(--ease);
+  transform:translateY(var(--lift));
+}
+.opt svg{width:17px;height:17px;flex:0 0 auto;stroke:#a5b2ae;stroke-width:1.6;fill:none;transition:stroke var(--dur-fast) var(--ease-soft)}
+.opt:hover{
+  --lift:-1px;
+  border-color:#b9d3cb;
+  background:#edf5f2;
+  color:var(--ink);
+  box-shadow:0 1px 3px rgba(10,76,67,.07);
+}
+.opt:hover svg{stroke:var(--teal-600)}
+.opt:active{--lift:0px;transition-duration:80ms}
+.opt:focus-visible{outline:2.5px solid var(--teal-600);outline-offset:3px}
+
+/* click feedback: the chosen pill confirms before the group clears */
+.opt.is-chosen{
+  border-color:var(--teal-600);
+  background:var(--teal-600);
+  color:var(--white);
+  font-weight:600;
+  --lift:-2px;
+  box-shadow:0 2px 10px rgba(10,76,67,.16);
+}
+.opt.is-chosen svg{stroke:var(--white)}
+.opt.is-dismissed{opacity:0;transform:translateY(6px) scale(.97);pointer-events:none}
+.opt.is-chosen.is-dismissed{opacity:0;transform:translateY(-6px) scale(1.02)}
+
+/* --- thanks state --- */
+.thanks{
+  display:flex;align-items:flex-start;gap:12px;
+  opacity:0;transform:translateY(14px);
+  transition:opacity var(--dur-slow) var(--ease-soft), transform var(--dur-slow) var(--ease);
+}
+.thanks.is-in{opacity:1;transform:none}
+.tick{
+  flex:0 0 auto;width:26px;height:26px;border-radius:var(--r-pill);
+  background:var(--teal-700);display:grid;place-items:center;
+}
+.tick svg{width:14px;height:14px;stroke:var(--white);stroke-width:3.4;fill:none;
+  stroke-dasharray:32;stroke-dashoffset:32;
+  transition:stroke-dashoffset 460ms var(--ease) 160ms;
+}
+.thanks.is-in .tick svg{stroke-dashoffset:0}
+.thanks-body{flex:1 1 auto;min-width:0}
+.thanks-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.thanks h3{font-size:18px;font-weight:700;letter-spacing:-.005em;line-height:1.45}
+.undo{
+  background:none;border:0;padding:2px 2px;cursor:pointer;
+  color:#7d928d;font-size:13.5px;font-weight:500;
+  text-decoration:underline;text-underline-offset:3px;
+  border-radius:var(--r-sm);
+  transition:color var(--dur-fast) var(--ease-soft);
+}
+.undo:hover{color:var(--teal-700)}
+.undo:focus-visible{outline:2.5px solid var(--teal-600);outline-offset:2px}
+
+/* optional follow-up for "Any other reason" */
+.followup{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);
+  max-width:470px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--dur-slow) var(--ease-soft) 220ms, transform var(--dur-slow) var(--ease) 220ms;
+}
+.thanks.is-in .followup{opacity:1;transform:none}
+.followup[hidden]{display:none}
+.followup label{display:block;font-weight:600;font-size:14px;margin-bottom:7px}
+.followup .row{display:flex;gap:9px;align-items:stretch}
+.followup input{
+  flex:1 1 auto;font:inherit;font-size:15px;padding:10px 15px;
+  border:1px solid #e0dccd;border-radius:var(--r-md);background:var(--white);color:var(--ink);
+  transition:border-color var(--dur-fast) var(--ease-soft), box-shadow var(--dur-fast) var(--ease-soft);
+}
+.followup input::placeholder{color:#9aa6a3}
+.followup input:focus{outline:0;border-color:var(--teal-600);box-shadow:0 0 0 3px rgba(23,121,106,.18)}
+.btn-send{
+  background:var(--teal-700);color:var(--white);border:0;border-radius:var(--r-pill);
+  padding:10px 21px;font-weight:600;font-size:14.5px;cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease);
+}
+.btn-send:hover{background:var(--teal-800);transform:translateY(-1px)}
+.btn-send:focus-visible{outline:3px solid var(--teal-600);outline-offset:3px}
+.followup .done{color:var(--teal-700);font-weight:600}
+
+/* ---------- keep this feeling growing ---------- */
+.grow{background:var(--blue-100);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:52px 44px 60px;text-align:center}
+.grow h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.015em}
+.grow-cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;
+  margin-top:38px;text-align:left;
+}
+.grow-card{
+  background:var(--white);border:1px solid #cfe4ee;border-radius:var(--r-sm);
+  padding:26px 26px 24px;display:flex;gap:16px;
+}
+.grow-card.tinted{background:var(--blue-050)}
+.grow-card > svg{width:26px;height:26px;flex:0 0 auto;stroke:var(--teal-700);stroke-width:1.7;fill:none;margin-top:2px}
+.grow-card p{font-size:16px;color:var(--ink)}
+.btn-ghost,.btn-solid{
+  display:inline-flex;align-items:center;gap:9px;margin-top:18px;
+  border-radius:var(--r-pill);font-weight:700;font-size:14.5px;cursor:pointer;
+  padding:11px 20px;
+  transition:transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+}
+.btn-solid{background:var(--teal-700);color:var(--white);border:1.5px solid var(--teal-700)}
+.btn-solid:hover{background:var(--teal-800);transform:translateY(-1px);box-shadow:var(--shadow-2)}
+.btn-ghost{background:transparent;color:var(--teal-700);border:1.5px solid var(--teal-700)}
+.btn-ghost:hover{background:var(--teal-700);color:var(--white);transform:translateY(-1px)}
+.btn-ghost svg,.btn-solid svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.6;fill:none}
+
+/* ---------- share band ---------- */
+.share{background:var(--teal-800);border-radius:0 0 var(--r-lg) var(--r-lg);padding:52px 44px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.share-card{background:var(--white);border-radius:2px;padding:26px 28px;max-width:400px}
+.share-card p{font-weight:500}
+.socials{display:flex;gap:14px;margin-top:20px}
+.social{
+  width:38px;height:38px;border-radius:var(--r-pill);background:var(--teal-800);
+  display:grid;place-items:center;border:0;cursor:pointer;
+  transition:transform var(--dur) var(--ease), background var(--dur-fast) var(--ease-soft);
+}
+.social svg{width:19px;height:19px;fill:var(--white)}
+.social:hover{transform:translateY(-3px) scale(1.06);background:var(--teal-600)}
+.social:focus-visible{outline:3px solid var(--white);outline-offset:3px}
+.spread{justify-self:center;max-width:340px;stroke:var(--white);fill:none;stroke-width:2.4}
+
+/* ---------- article ---------- */
+.article{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:44px;border-radius:var(--r-sm);overflow:hidden}
+.article-copy{background:var(--yellow-100);padding:52px 44px}
+.article-copy h2{font-size:26px;font-weight:800;letter-spacing:-.015em;max-width:22ch}
+.article-copy p{margin-top:16px;color:var(--ink-soft);max-width:46ch}
+.article-photo{
+  background:
+    radial-gradient(120% 90% at 70% 20%, #9db98a 0%, transparent 60%),
+    linear-gradient(160deg,#6f5a3f,#3f3226 60%,#25211c);
+  min-height:330px;display:grid;place-items:end center;padding:20px;
+}
+.article-photo span{color:rgba(255,255,255,.62);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+
+/* ---------- confirmation ---------- */
+.confirm{background:var(--sage-100);border-radius:var(--r-lg);padding:56px 44px 62px;margin:44px 0 80px;text-align:center}
+.confirm h2{font-size:clamp(23px,3vw,31px);font-weight:800;letter-spacing:-.015em;line-height:1.25}
+.confirm p{margin-top:26px;color:var(--ink-soft);max-width:56ch;margin-left:auto;margin-right:auto}
+.confirm a{color:var(--teal-800);font-weight:600}
+
+/* ---------- prototype note ---------- */
+.protonote{
+  max-width:var(--maxw);margin:0 auto 60px;padding:0 24px;
+  color:#7b8783;font-size:13.5px;
+}
+.protonote div{border-top:1px solid var(--rule);padding-top:16px}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .mainnav,.utility{display:none}
+  .masthead .wrap{gap:12px;justify-content:space-between;padding-left:18px;padding-right:18px}
+  .head-actions{gap:6px}
+  .btn-donate{padding:11px 18px;font-size:15px}
+  .logo b{font-size:23px}
+  .hero .wrap{grid-template-columns:1fr}
+  .heart{width:120px;justify-self:start}
+  .attr-card{padding:22px 0 0}
+  .share{grid-template-columns:1fr;padding:40px 24px}
+  .grow{padding:40px 24px 46px}
+  .article{grid-template-columns:1fr}
+  .article-copy{padding:36px 24px}
+  .confirm{padding:40px 24px 46px}
+  .opt{width:100%;justify-content:flex-start}
+  .thanks{flex-direction:column;gap:14px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition-duration:1ms !important;
+    animation-duration:1ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ header ============ -->
+<div class="utility">
+  <div class="wrap">
+    <a href="#">Contact us</a><a href="#">Latest news</a><a href="#">Schools</a><a href="#">Vacancies</a>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="logo" href="#"><b>CONCERN</b><span>worldwide</span></a>
+    <nav class="mainnav" aria-label="Main">
+      <a href="#">Our work <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
+      <a href="#">About us <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
+      <a href="#">How to help <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
+      <a href="#">Knowledge Hub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
+    </nav>
+    <div class="head-actions">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      </button>
+      <button class="btn-donate">Donate Now</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ hero ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Anna, you are amazing.</h1>
+      <h2>Thank you for your support.</h2>
+      <p>This donation will provide a lifeline for families whose lives have been devastated by conflict and climate change.</p>
+    </div>
+    <svg class="heart" viewBox="0 0 200 182" aria-hidden="true">
+      <defs>
+        <clipPath id="heart-clip">
+          <path d="M100 170C40 130 10 96 10 62 10 32 34 12 60 12c18 0 32 9 40 22 8-13 22-22 40-22 26 0 50 20 50 50 0 34-30 68-90 108z"/>
+        </clipPath>
+      </defs>
+      <path d="M100 128c22 0 34 10 45 10 12 0 20-6 27-12v56H28v-56c7 6 15 12 27 12 11 0 23-10 45-10z"
+            fill="#116357" stroke="none" clip-path="url(#heart-clip)"/>
+      <path d="M100 170C40 130 10 96 10 62 10 32 34 12 60 12c18 0 32 9 40 22 8-13 22-22 40-22 26 0 50 20 50 50 0 34-30 68-90 108z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ NEW: attribution question ============ -->
+<section class="attr" aria-labelledby="attr-heading">
+  <div class="wrap">
+    <div class="attr-card">
+      <div class="stage" id="stage">
+
+        <!-- ask -->
+        <div class="panel" id="panel-ask">
+          <h2 id="attr-heading">What motivated your donation today?</h2>
+          <p class="lede">It really helps Concern know how best to reach amazing people like you.</p>
+          <ul class="options" id="options" role="group" aria-labelledby="attr-heading">
+            <li><button class="opt" type="button" data-answer="Any other reason" data-other="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.4a2.9 2.9 0 015.6 1c0 1.9-2.8 2.3-2.8 4"/><path d="M12 17.4h.01"/></svg>
+              Any other reason</button></li>
+
+            <li><button class="opt" type="button" data-answer="I received a call from Concern">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.6 4-2 1.5a12 12 0 005.9 5.9l1.5-2 4 1.6v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"/></svg>
+              I received a call from Concern</button></li>
+
+            <li><button class="opt" type="button" data-answer="I received a letter">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="M4.6 7.2l7.4 5.6 7.4-5.6"/></svg>
+              I received a letter</button></li>
+
+            <li><button class="opt" type="button" data-answer="I received an email">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7h17v10.5h-17z"/><path d="M3.5 7l8.5 6 8.5-6"/><path d="M3.5 17.5l6-5M20.5 17.5l-6-5"/></svg>
+              I received an email</button></li>
+
+            <li><button class="opt" type="button" data-answer="I saw an ad on Facebook/Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.8 7.3h.01"/></svg>
+              I saw an ad on Facebook/Instagram</button></li>
+
+            <li><button class="opt" type="button" data-answer="I saw an ad on TV">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11.5" rx="2"/><path d="M8.5 3.5L12 6.5l3.5-3"/></svg>
+              I saw an ad on TV</button></li>
+
+            <li><button class="opt" type="button" data-answer="I saw an ad on YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="6" width="18.4" height="12" rx="3.6"/><path d="M10.4 9.6l4.6 2.4-4.6 2.4z"/></svg>
+              I saw an ad on YouTube</button></li>
+          </ul>
+        </div>
+
+        <!-- thanks -->
+        <div class="panel" id="panel-thanks" hidden>
+          <div class="thanks" id="thanks">
+            <div class="tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            </div>
+            <div class="thanks-body">
+              <div class="thanks-row">
+                <h3 tabindex="-1" id="thanks-heading">Thank you, that's really useful.</h3>
+                <button class="undo" type="button" id="undo">Change answer</button>
+              </div>
+
+              <div class="followup" id="followup" hidden>
+                <label for="other-input">If you'd like, tell us what it was</label>
+                <div class="row" id="followup-row">
+                  <input id="other-input" type="text" placeholder="A radio ad, a friend, a poster…" autocomplete="off">
+                  <button class="btn-send" type="button" id="send-other">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="sr-only" role="status" aria-live="polite" id="live"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ keep this feeling growing ============ -->
+<section class="wrap">
+  <div class="grow">
+    <h2>Keep this feeling growing.</h2>
+    <div class="grow-cards">
+      <div class="grow-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5c-5-3.6-8-6.8-8-10.2A4.3 4.3 0 0112 8a4.3 4.3 0 018 2.3c0 3.4-3 6.6-8 10.2z"/></svg>
+        <div>
+          <p>Join our community of regular givers and make a difference all year round.</p>
+          <button class="btn-solid" type="button">Give monthly <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <div class="grow-card tinted">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3"/><circle cx="16.5" cy="10" r="2.3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M15 14.5c2.6 0 5 1.7 5 4.5"/></svg>
+        <div>
+          <p>Take part in the Dublin 2025 Marathon and fundraise with Concern.</p>
+          <button class="btn-ghost" type="button">Learn more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="share">
+    <div class="share-card">
+      <p>Take it a step further and share this with your friends.</p>
+      <div class="socials">
+        <button class="social" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5H16.6V4.4A21 21 0 0014.3 4.3c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/></svg></button>
+        <button class="social" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 4h2.6l-5.7 6.5L21 20h-5.2l-4-5.3L7 20H4.4l6.1-7L3.7 4H9l3.6 4.8zm-.9 14.4h1.4L8.4 5.5H6.9z"/></svg></button>
+        <button class="social" aria-label="Share on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.4c-1.5 0-1.7 0-2.3.03-1.7.08-2.5.9-2.6 2.6C7 9.7 7 9.9 7 12s0 2.3.03 2.9c.08 1.7.9 2.5 2.6 2.6.6.03.8.03 2.3.03s1.7 0 2.3-.03c1.7-.08 2.5-.9 2.6-2.6.03-.6.03-.8.03-2.9s0-2.3-.03-2.9c-.08-1.7-.9-2.5-2.6-2.6-.6-.03-.8-.03-2.3-.03zm0 2.7a2.9 2.9 0 110 5.8 2.9 2.9 0 010-5.8zm0 1.5a1.4 1.4 0 100 2.8 1.4 1.4 0 000-2.8zm3.1-1.9a.7.7 0 110 1.4.7.7 0 010-1.4zM12 4c2.2 0 2.4 0 3.3.05 2.5.12 3.7 1.3 3.8 3.8.04.9.05 1.1.05 3.3s0 2.4-.05 3.3c-.12 2.5-1.3 3.7-3.8 3.8-.9.04-1.1.05-3.3.05s-2.4 0-3.3-.05c-2.5-.12-3.7-1.3-3.8-3.8C4.8 14.4 4.8 14.2 4.8 12s0-2.4.05-3.3C4.97 6.2 6.2 5 8.7 4.9 9.6 4.8 9.8 4.8 12 4.8z"/></svg></button>
+        <button class="social" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 9.4v9.1H4.6V9.4zM6 5a1.7 1.7 0 110 3.4A1.7 1.7 0 016 5zm3.7 4.4h2.8v1.25a3 3 0 012.7-1.5c2.1 0 3.3 1.3 3.3 3.9v5.45h-2.9v-4.8c0-1.2-.4-2-1.5-2s-1.6.75-1.6 2v4.8H9.7z"/></svg></button>
+      </div>
+    </div>
+    <svg class="spread" viewBox="0 0 340 200" aria-hidden="true">
+      <path d="M40 34h250M40 34v130M40 164h250M290 34v130" stroke-linecap="round"/>
+      <rect x="88" y="66" width="180" height="76" rx="3"/>
+      <circle cx="66" cy="92" r="11"/>
+      <path d="M56 112c1-6 5-9 10-9s9 3 10 9"/>
+      <path d="M96 78c0 6 4 8 4 8m8-8c0 6 4 8 4 8" stroke-linecap="round"/>
+      <path d="M124 116c14-14 44-18 66-14s38 12 52 4" stroke-linecap="round"/>
+      <path d="M14 24l12 10M22 8l4 14M300 12l-4 16M318 30l-14 8M46 178l-6 12M290 178l8 12" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- ============ article ============ -->
+  <div class="article">
+    <div class="article-copy">
+      <h2>How we are building food security to end hunger</h2>
+      <p>The world produces enough food for everyone, yet around 10% of the global population still lacks food security. But what exactly does food security mean?</p>
+      <button class="btn-solid" type="button">Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="article-photo"><span>Photo placeholder</span></div>
+  </div>
+
+  <!-- ============ confirmation ============ -->
+  <div class="confirm">
+    <h2>Your donation makes a difference.<br>Thank you.</h2>
+    <p>Your confirmation number is 019283. You will receive an email shortly with the details of your donation.</p>
+    <p>If you have any questions, feel free to reach out to us at <a href="mailto:info@concern.net">info@concern.net</a>.</p>
+  </div>
+</section>
+
+<div class="protonote">
+  <div>Prototype by SystemSeed, for the Concern Worldwide offline-to-online attribution discussion. Not an official Concern build; photography and illustration are placeholders.</div>
+</div>
+
+<script>
+(function () {
+  var stage     = document.getElementById('stage');
+  var panelAsk  = document.getElementById('panel-ask');
+  var panelThx  = document.getElementById('panel-thanks');
+  var thanks    = document.getElementById('thanks');
+  var followup  = document.getElementById('followup');
+  var live      = document.getElementById('live');
+  var heading   = document.getElementById('thanks-heading');
+  var opts      = Array.prototype.slice.call(document.querySelectorAll('.opt'));
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var busy = false;
+
+  /* Animate the stage from its current height to whatever the new panel needs.
+     Height is pinned for the duration, then released back to auto so the
+     section keeps reflowing normally afterwards. */
+  function morph(swap, done) {
+    if (reduced) { swap(); if (done) done(); return; }
+
+    var from = stage.getBoundingClientRect().height;
+    stage.style.height = from + 'px';
+    void stage.offsetHeight;          // commit the pinned height
+
+    swap();
+
+    var to = stage.scrollHeight;
+    requestAnimationFrame(function () {
+      stage.style.height = to + 'px';
+    });
+
+    var settled = false;
+    function release(e) {
+      if (e && e.target !== stage) return;
+      if (settled) return;
+      settled = true;
+      stage.removeEventListener('transitionend', release);
+      stage.style.height = '';
+      if (done) done();
+    }
+    stage.addEventListener('transitionend', release);
+    setTimeout(release, 900);         // safety net if transitionend never fires
+  }
+
+  function choose(btn) {
+    if (busy) return;
+    busy = true;
+
+    var answer  = btn.getAttribute('data-answer');
+    var isOther = btn.getAttribute('data-other') === 'true';
+
+    followup.hidden = !isOther;
+
+    /* 1. the chosen pill confirms on its own first */
+    btn.classList.add('is-chosen');
+    opts.forEach(function (o) { o.setAttribute('tabindex', '-1'); });
+
+    var ack = reduced ? 0 : 170;
+
+    setTimeout(function () {
+      /* 2. the group clears, nearest-first, so it reads as a sweep */
+      if (!reduced) {
+        var i = opts.indexOf(btn);
+        opts.forEach(function (o, n) {
+          setTimeout(function () { o.classList.add('is-dismissed'); }, Math.abs(n - i) * 34);
+        });
+      }
+
+      var clearAt = reduced ? 0 : 34 * opts.length + 180;
+
+      setTimeout(function () {
+        /* 3. swap panels and ease the container to its new height */
+        morph(function () {
+          panelAsk.hidden = true;
+          panelThx.hidden = false;
+        }, null);
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { thanks.classList.add('is-in'); });
+        });
+
+        live.textContent = 'Thank you. Your answer, ' + answer + ', has been recorded.';
+        heading.focus({ preventScroll: true });
+        busy = false;
+      }, clearAt);
+    }, ack);
+  }
+
+  function reset() {
+    if (busy) return;
+    busy = true;
+
+    thanks.classList.remove('is-in');
+
+    setTimeout(function () {
+      morph(function () {
+        panelThx.hidden = true;
+        panelAsk.hidden = false;
+        opts.forEach(function (o) {
+          o.classList.remove('is-chosen', 'is-dismissed');
+          o.removeAttribute('tabindex');
+        });
+        resetFollowup();
+      }, null);
+
+      live.textContent = 'Your answer has been cleared. Please choose again.';
+      var first = opts[0];
+      if (first) first.focus({ preventScroll: true });
+      busy = false;
+    }, reduced ? 0 : 240);
+  }
+
+  /* optional free text, only for "Any other reason" */
+  var row   = document.getElementById('followup-row');
+  var input = document.getElementById('other-input');
+  var send  = document.getElementById('send-other');
+  var rowHTML = row.innerHTML;
+
+  function resetFollowup() {
+    if (row.innerHTML !== rowHTML) {
+      row.innerHTML = rowHTML;
+      input = document.getElementById('other-input');
+      send  = document.getElementById('send-other');
+      bindFollowup();
+    }
+    if (input) input.value = '';
+  }
+
+  function submitOther() {
+    var v = input.value.trim();
+    if (!v) { input.focus(); return; }
+    morph(function () {
+      row.innerHTML = '<p class="done">Got it. Thank you for the extra detail.</p>';
+    }, null);
+    live.textContent = 'Thank you for the extra detail.';
+  }
+
+  function bindFollowup() {
+    if (!send) return;
+    send.addEventListener('click', submitOther);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submitOther(); }
+    });
+  }
+
+  opts.forEach(function (btn) {
+    btn.addEventListener('click', function () { choose(btn); });
+  });
+  document.getElementById('undo').addEventListener('click', reset);
+  bindFollowup();
+})();
+</script>
+</body>
+</html>
